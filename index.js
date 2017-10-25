@@ -1,13 +1,17 @@
 const express = require('express');
 const app = express();
 const data = require('./MOCK_DATA');
+const Database = require('./db');
+const db = new Database();
 
+db.init();
 
-app.get('/hotels', function (req, res) {
-    let random = data[Math.floor(Math.random() * data.length)];
-    res.send(random);
+app.get('/hotels', async (req, res) => {
+    let hotel = await db.getHotel();
+    console.log('API call. Will be returned: ', hotel);
+    res.send(hotel);
 });
 
-app.listen(7777, function () {
-  console.log('KD-HW API RUNNING ON localhost:7777!')
+app.listen(7788, function () {
+  console.log('==> 🌎 KD-HW API RUNNING ON localhost:7788');
 });
